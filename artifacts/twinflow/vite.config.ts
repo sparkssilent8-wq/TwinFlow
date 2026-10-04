@@ -1,0 +1,44 @@
+import path from 'node:path';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+
+const rawPort = process.env.PORT;
+
+if (!rawPort) {
+  throw new Error('PORT environment variable is required but was not provided.');
+}
+
+const port = Number(rawPort);
+
+if (!Number.isFinite(port) || port <= 0) {
+  throw new Error(`Invalid PORT value: "${rawPort}"`);
+}
+
+const basePath = process.env.BASE_PATH || '/';
+
+export default defineConfig({
+  base: basePath,
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(import.meta.dirname, 'src'),
+    },
+    dedupe: ['react', 'react-dom'],
+  },
+  root: path.resolve(import.meta.dirname),
+  build: {
+    outDir: path.resolve(import.meta.dirname, 'dist/public'),
+    emptyOutDir: true,
+  },
+  server: {
+    port,
+    strictPort: true,
+    host: '0.0.0.0',
+    allowedHosts: true,
+  },
+  preview: {
+    port,
+    host: '0.0.0.0',
+    allowedHosts: true,
+  },
+});

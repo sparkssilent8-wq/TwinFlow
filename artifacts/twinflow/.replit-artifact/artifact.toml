@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "TwinFlow by SilentSparks"
+description = "A production-ready digital twin dashboard for monitoring and simulating oil well operations, optimization scenarios, predictions, alerts, and reports."
+version = "1.0.0"
+id = "artifacts/twinflow"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20198
+
+[services.development]
+run = "pnpm --filter @workspace/twinflow run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/twinflow", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/twinflow/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20198"
+BASE_PATH = "/"
