@@ -2,11 +2,7 @@ import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
-const rawPort = process.env.PORT;
-
-if (!rawPort) {
-  throw new Error('PORT environment variable is required but was not provided.');
-}
+const rawPort = process.env.PORT || '5173';
 
 const port = Number(rawPort);
 
